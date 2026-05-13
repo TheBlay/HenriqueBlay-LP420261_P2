@@ -4,7 +4,7 @@ USE db_publicacoes;
 -- Tabela principal
 CREATE TABLE tb_classificacao (
 	idClassificacao INT AUTO_INCREMENT PRIMARY KEY,
-    tipoClassificacao VARCHAR(100) NOT NULL,
+    tipoClassificacao VARCHAR(100) NOT NULL UNIQUE,
     descricao TEXT
 ) ENGINE=INNODB;
 
