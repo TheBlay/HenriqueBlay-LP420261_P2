@@ -1,0 +1,6 @@
+INSERT IGNORE INTO tb_classificacao (idClassificacao, tipoClassificacao, descricao) VALUES 
+(1, 'Autor', 'Criador principal'), 
+(2, 'Coautor', 'Criador de apoio'),
+(3, 'Revisor', 'Responsável pela revisão'),
+(4, 'Ilustrador', 'Criador das ilustrações ou parte delas'),
+(5, 'Orientador', 'Mentor que auxilou o autor no projeto');
