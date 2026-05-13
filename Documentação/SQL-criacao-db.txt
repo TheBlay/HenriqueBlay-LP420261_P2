@@ -1,0 +1,56 @@
+CREATE DATABASE IF NOT EXISTS db_publicacoes CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE db_publicacoes;
+
+-- Tabela principal
+CREATE TABLE tb_classificacao (
+	idClassificacao INT AUTO_INCREMENT PRIMARY KEY,
+    tipoClassificacao VARCHAR(100) NOT NULL,
+    descricao TEXT
+) ENGINE=INNODB;
+
+CREATE TABLE tb_autores (
+    idAutor INT AUTO_INCREMENT PRIMARY KEY,
+    nomeAutor VARCHAR(150) NOT NULL,
+    email VARCHAR(150),
+    idClassificacao INT,
+    CONSTRAINT fk_autor_classificacao FOREIGN KEY (idClassificacao) REFERENCES tb_classificacao(idClassificacao)
+        ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE tb_convidados (
+    idConvidado INT AUTO_INCREMENT PRIMARY KEY,
+    nomeConvidado VARCHAR(150) NOT NULL,
+    email VARCHAR(150),
+    telefone VARCHAR(20)
+) ENGINE=InnoDB;
+
+CREATE TABLE tb_divulgacao (
+	idDivulgacao INT AUTO_INCREMENT PRIMARY KEY,
+    dataEvento DATE,
+    local VARCHAR(150),
+    idConvidado INT,
+    CONSTRAINT fk_divulgacao_convidados FOREIGN KEY (idConvidado) REFERENCES tb_convidados(idConvidado)
+    	ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE tb_tipoPublicacao (
+    idTipoPublicacao INT AUTO_INCREMENT PRIMARY KEY,
+    nomeTipo VARCHAR(100) NOT NULL,
+    descricao TEXT
+) ENGINE=INNODB;
+
+CREATE TABLE tb_publicacao (
+    idPublicacao INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    dataPublicacao DATE,
+    resumo TEXT,
+    idDivulgacao INT,
+    idAutor INT,
+    idTipoPublicacao INT,
+    CONSTRAINT fk_publicacao_divulgacao FOREIGN KEY (idDivulgacao) REFERENCES tb_divulgacao(idDivulgacao)
+    	ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT fk_publicacao_autores FOREIGN KEY (idAutor) REFERENCES tb_autores(idAutor)
+    	ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT fk_publicacao_tipoPublicacao FOREIGN KEY (idTipoPublicacao) REFERENCES tb_tipoPublicacao(idTipoPublicacao)
+    	ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=INNODB;
