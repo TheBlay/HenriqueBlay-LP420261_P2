@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chango&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chango&family=Momo+Trust+Display&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+/* TO-DO: mudar a paletta de cores do site */
+:root {
+    --cor-de-fundo: #FCE7C8;
+    --cor-titulo: #D9A299;
+    --fonte-titulo: Raleway;
+    --cor-fundo-elemento: #e9c8ad;
+    --altura-input: 1.6em;
+    --fonte-exibicao-dados: Momo Trust Display;
+}
+
+body {
+    background-color: var(--cor-de-fundo);
+}
+
+hr {
+  background-color: var(--cor-de-fundo);
+  border: none;
+  height: 1px;
+}
+
+div.title {
+    background: var(--cor-titulo);
+    font-family: var(--fonte-titulo, 'Times New Roman', Times, serif);
+    font-size: 3em;
+    padding-left: 1em;
+    border-top-right-radius: 3em;
+    max-width: 60%;
+    color: bisque;
+    margin-top: 70px;
+}
+
+.caixa, .lista {
+  border-bottom: #0b0704;
+  background-color: var(--cor-titulo);
+  max-width: 100%;
+  min-height:fit-content;
+  padding-bottom: 1.2em;
+  padding-top: 1pc;
+  padding-right: 1pc;
+  padding-inline-start: 1pc;
+  border-top-right-radius: 2em;
+  display: flow;
+  justify-content: center;
+  
+}
+
+.lista {
+  
+  display:block;
+  border-top-right-radius: 0%;
+  max-height: fit-content;
+  padding-bottom: 1pc;
+ 
+}
+/* Renomear para elemento da lista */
+
+ div.elemento { 
+  padding: 1vh;
+  padding-top: 0;
+  border-radius: 0.5em;
+  font-size: large;
+  font-family: var(--fonte-exibicao-dados);
+  background-color: var(--cor-fundo-elemento);
+  border-style: ridge;
+  border-width: 3px;
+  border-left-color: rgb(255, 255, 255);
+  width: 180vh;
+  max-width: 180vh;
+  min-width: 180vh;
+  min-height: 30vh;
+  max-height:400vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: auto;
+}
+
+
+textarea {
+  resize: none;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: auto;
+  min-height:30px;
+  max-height: 100px;
+  max-width: 60%;
+  width: 50%;
+  margin:5px;
+  border: 2px solid var(--cor-fundo-elemento, black);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: antiquewhite;
+  font-size: 16px;
+}
+
+#descricaoContainer {
+  min-height: var(--altura-input);
+  max-width: min-content;
+  border: 1px ridge black;
+  display: contents;
+  min-inline-size: 40%;
+}
+label {
+  font-size: 18px;
+  
+}
+
+input, input[type=text], input[type=number], select, button {
+  width: 50%;
+  margin:5px;
+  border: 2px solid var(--cor-fundo-elemento, black);
+  border-radius: 10px;
+  min-height: var(--altura-input);
+  box-sizing: border-box;
+  background-color: antiquewhite;
+  font-size: 16px;
+}
+
+input[type=text] {
+  /* Propriedades exclusivas do campo texto etc. */
+  max-height:fit-content;
+}
+
+input[type=number] {
+  /* Propriedades exclusivas do campo número etc. */
+  max-height: fit-content;
+}
+
+input:hover, textarea:hover, select:hover, button:hover {
+  border-color: #ab675d;
+}
+
+input:focus, textarea:focus {
+  border-color: #ab675d;
+  outline: hidden;
+  box-shadow: 0 0 0.7em #eee69d;
+}
+
+input[type="number"]::-webkit-inner-spin-button, /* Remove os botões de incremento do campo */
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+button {
+  max-width: fit-content;
+  max-height: fit-content;
+  vertical-align: baseline;
+}
+button:active{
+  box-shadow: 0 0 0.7em #eee69d;
+  background-color: #e9c8ad;
+}
+button:hover{
+  box-shadow: 0.1em 0 0.3em #ab675d;
+}
+
+select {
+
+}
+
+
+
+/*
+  
+  .dropdown-toggle {
+    display: none;
+  } 
+
+  .dropdown-label {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    user-select: none;
+  }
+
+  .dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: #f1f1f1;
+    margin-top: 5px;
+    padding: 0 10px;
+    border-radius: 4px;
+  }
+
+  .dropdown-toggle:checked + .dropdown-label + .dropdown-content {
+    max-height: 200px; 
+    padding: 10px;
+    transition: max-height 0.3s ease-in;
+  }
+*/
