@@ -3,12 +3,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Chango&family=Momo+Trust+Display&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 /* TO-DO: mudar a paletta de cores do site */
 :root {
-    --cor-de-fundo: #FCE7C8;
-    --cor-titulo: #D9A299;
+    --cor-de-fundo: #A8C7E1; /* color-200 */
+    --cor-titulo: #5190C4; /* color-500 */
     --fonte-titulo: Raleway;
-    --cor-fundo-elemento: #e9c8ad;
+    --cor-fundo-elemento: #85B1D5; /* color-300 */
     --altura-input: 1.6em;
     --fonte-exibicao-dados: Momo Trust Display;
+
+    /* Paletta de cores - mais claro a mais escuro | Peguei do https://htmlcolorcodes.com/color-picker/ */
+
+    --cor-fonte-claro: #1B3C53;
+    --cor-fonte-escuro: #ECF3F9;
+    --cor-paleta2-5: #1B3C53;
+    --cor-paleta2-4: #456882;
+    --cor-paleta2-5:  #D2C1B6;
+    --cor-paleta2-5:  #F9F3EF;
+
+    --color-50: #ECF3F8;
+    --color-100: #CADDED;
+    --color-200: #A8C7E1;
+    --color-300: #85B1D5;
+    --color-400: #639CCA;
+    --color-500: #5190C4;
+    --color-600: #356E9C;
+    --color-700: #2A567A;
+    --color-800: #1E3E57;
+    --color-900: #122535;
+    --color-950: #070D13;
 }
 
 body {
@@ -28,12 +49,12 @@ div.title {
     padding-left: 1em;
     border-top-right-radius: 3em;
     max-width: 60%;
-    color: bisque;
+    color: var(--cor-de-fundo);
     margin-top: 70px;
 }
 
 .caixa, .lista {
-  border-bottom: #0b0704;
+  border-bottom: #000000;
   background-color: var(--cor-titulo);
   max-width: 100%;
   min-height:fit-content;
@@ -78,7 +99,6 @@ div.title {
   scrollbar-gutter: auto;
 }
 
-
 textarea {
   resize: none;
   overflow: scroll;
@@ -105,19 +125,18 @@ textarea {
   min-inline-size: 40%;
 }
 label {
-  font-size: 18px;
-  
+  font-size: 1.4em;
 }
 
 input, input[type=text], input[type=number], select, button {
   width: 50%;
   margin:5px;
-  border: 2px solid var(--cor-fundo-elemento, black);
+  border: 1px solid var(--cor-fundo-elemento, black);
   border-radius: 10px;
   min-height: var(--altura-input);
   box-sizing: border-box;
   background-color: antiquewhite;
-  font-size: 16px;
+  font-size: 1.1em;
 }
 
 input[type=text] {
@@ -131,16 +150,16 @@ input[type=number] {
 }
 
 input:hover, textarea:hover, select:hover, button:hover {
-  border-color: #ab675d;
+  border-color: var(--color-300);
 }
 
 input:focus, textarea:focus {
-  border-color: #ab675d;
+  border-color: var(--color-400);
   outline: hidden;
-  box-shadow: 0 0 0.7em #eee69d;
+  box-shadow: 0 0 0.7em var(--color-100);
 }
 
-input[type="number"]::-webkit-inner-spin-button, /* Remove os botões de incremento do campo */
+input[type="number"]::-webkit-inner-spin-button, /* Remove os botões de incremento do campo de input numérico */
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
@@ -153,17 +172,12 @@ button {
   vertical-align: baseline;
 }
 button:active{
-  box-shadow: 0 0 0.7em #eee69d;
-  background-color: #e9c8ad;
+  box-shadow: 0 0 0.7em var(--color-200);
+  background-color: var(--color-300);
 }
 button:hover{
-  box-shadow: 0.1em 0 0.3em #ab675d;
+  box-shadow: 0.1em 0 0.3em var(--color-300);
 }
-
-select {
-
-}
-
 
 
 /*

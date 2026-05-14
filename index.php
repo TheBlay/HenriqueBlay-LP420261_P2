@@ -2,6 +2,8 @@
 
 ?>
 <!--
+
+Ícones de svgrepo.com | favicon feito usando Paint
  Autoria de Henrique Blay Barboza  |  RA: 1290482612001
  Confira no GitHub! -> https://github.com/TheBlay/HenriqueBlay-LP420261_P2
 
@@ -17,7 +19,7 @@ Coautores, Revisores, etc.
 <html>
 <head>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Publicações</title>

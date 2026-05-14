@@ -25,13 +25,13 @@ const topBtn = document.getElementById('topBtn');
 </script>
 <style>
 :root {
-    --cor-de-fundo-container-nav: #FCE7C870;
-    --cor-fundo-navbar: #C9B59C;
-    --cor-botoes-nav: #DCC5B2;
+    --cor-de-fundo-container-nav: var(--cor-de-fundo);
+    --cor-fundo-navbar: var(--color-500);
+    --cor-botoes-nav: var(--color-400);
     --fonte-botoes-nav: "Chango, sans-serif";
     --cor-fonte-botoes-nav: black;
 }
-
+/* a barra de navegação que fica no topo de todas as páginas */
 .navBarContainer {
     display: grid;
     grid-auto-flow: column;
@@ -40,7 +40,7 @@ const topBtn = document.getElementById('topBtn');
     max-width: max-content;
     min-width: 100%;
     min-height: 60px;
-    justify-content: normal; /* space-around, strecth and normal*/
+    justify-content: stretch; /* bons: space-around, stretch e normal*/
     
 }
 
@@ -65,7 +65,7 @@ display: inline-block;
 max-width: 30%;
 }
 
-.contain, .configBtn {
+.contain {
     border: 2px solid black;
     flex-wrap: wrap;
     text-decoration: none;
@@ -80,11 +80,6 @@ max-width: 30%;
     display: inline-flex;
 }
 
-.configBtn {
-    width: fit-content;
-    
-}
-
 img {
   border-radius: 5px;
   width: 60px;
@@ -97,7 +92,7 @@ img {
       right: 15px;
       display: block;
       padding: 10px 15px;
-      background: #dd7514;
+      background: var(--cor-paleta2-4);
       color: white;
       border: none;
       border-radius: 5px;
@@ -106,17 +101,15 @@ img {
     }
 
 .contain:hover, #topBtn:hover{
-    background-color: #dea575;
-    text-shadow: #fcfbfa;
+    background-color: var(--color-300);
+    text-shadow: var(--color-100);
 }
 
 .navBarContainer{
     position: fixed;
-    
 }
 
 a:not(.contain) {
-  
   margin-block: 1px;
   
 }
@@ -124,15 +117,11 @@ a:not(.contain) {
 
  </style>
 
-<div class="navBarContainer"><img src="favicon.ico">
+<div class="navBarContainer"><img src="favicon.png">
     <div class="navBarSuperior">
         <a class="contain" href="index.php" >Home</a>
         <a class="contain" href="peixaria.php" >Peixaria</a>
         <a class="contain" href="filmesFavoritos.php" >Filmes</a>
-    </div>
-    <div class="configBarSuperior">
-        <button class="configBtn" type="reset">Limpar campos</button>
-        <button class="configBtn"onClick="#">Config.</button>
     </div>
 </div>
 <hr/>
