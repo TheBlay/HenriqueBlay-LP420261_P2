@@ -1,5 +1,11 @@
 
 <!DOCTYPE html>
+<!--
+Ícones de svgrepo.com | favicon feito usando Paint
+ Autoria de Henrique Blay Barboza  |  RA: 1290482612001
+ Confira no GitHub! -> https://github.com/TheBlay/HenriqueBlay-LP420261_P2
+
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,36 +16,26 @@
     <title>Divulgações</title>
 </head>
 
-<body><?php  
+<body>
+    <?php
     require_once 'conexao.php';
-    include_once 'header.php'; ?>
+    include_once 'header.php'; 
+    ?>
     <div class='title'>Divulgação de Publicações</div>
         <div class="caixa">
                 
-            <input type="text" id="nome" name="nome" placeholder="Nome do autor" required>
             <div id="descricaoContainer">
-            
-            <textarea rows="6" cols="50" id="descricao" name="descricao" placeholder="Descrição do Filme" required></textarea>
+<!-- Inserir exibição das Divulgações aqui com stmt
+$stmt = $pdo->query("SELECT * FROM tb_divulgacoes");
+while ($row = $stmt->fetch()) {
+    echo $row['nomeAutor'] . "<br>";
+} 
+-->
             </div>    
             
-            <select name="genero" id="genero" required>
-                <option value="">Gênero...</option>
-                <option value="acao">Ação</option>
-                <option value="aventura">Aventura</option>
-                <option value="comedia">Comédia</option>
-                <option value="drama">Drama</option>
-                <option value="terror">Terror</option>
-                <option value="ficcao">Ficção Científica</option>
-                <option value="romance">Romance</option>
-                <option value="suspense">Suspense</option>
-                <option value="animacao">Animação</option>
-                <option value="musical">Musical</option>
-            </select>
-            
-            <button type="button" onclick="cadastrarFilme()">Cadastrar Filme</button>
             <button type="button" onclick="carregarFilmes()">Exibir Filmes</button>
         </div>
-        <div class="caixa lista" id="listaFilmes">
+        <div class="caixa lista" id="listaDivulgacoes">
 
         </div>
     <script>
@@ -49,7 +45,7 @@
     //Elementos
     
    
-    lista = document.getElementById('listaFilmes');
+    lista = document.getElementById('listaDivulgacoes');
 
     function gerarHTML(f) {
         return `<div class="elemento">
@@ -60,35 +56,6 @@
                 `
     }
 
-    function cadastrarFilme()
-    {
-        const generoSelect = document.getElementById('genero');
-        
-        const nome = document.getElementById('nome').value;
-        const descricao = document.getElementById('descricao').value;
-        const genero = generoSelect.selectedOptions[0].text;
-
-        const body = new URLSearchParams(
-            {
-                nome: nome,
-                descricao: descricao,
-                genero: genero
-            }
-        );
-        fetch('filmes.php',
-         {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
-            body: body.toString()
-    })
-    .then(response => response.json())
-    .then(filme => {
-            document.getElementById('listaFilmes').innerHTML =
-                filme.map(gerarHTML).join('');
-                
-    })
-    .catch(error => console.error('Erro: ', error));
-    }
 
 
     function carregarFilmes(){
@@ -96,7 +63,7 @@
         fetch('filmes.php', { method: 'GET'})
             .then(response => response.json())
             .then(filme => {
-                document.getElementById('listaFilmes').innerHTML =
+                document.getElementById('listaDivulgacoes').innerHTML =
                 filme.map(gerarHTML).join('');
                 
                 
@@ -110,3 +77,4 @@
 </script>
 </body>
 </html>
+

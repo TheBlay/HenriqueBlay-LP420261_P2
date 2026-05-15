@@ -36,10 +36,8 @@ Coautores, Revisores, etc.
 <?php  include_once 'header.php'; ?>
 <hr/><div class='title'>Publicações Atuais</div>
 	<div class="caixa">
-            <input type="text" id="nome" name="nome" placeholder="Nome do Produto">
+            <input type="text" id="nome" name="nome" placeholder="Nome da Publicação">
             <textarea rows="6" cols="50 id="descricao" name="descricao" placeholder="Descrição do Produto"></textarea>
-            <input type="number" id="preco" name="preco" type="number" step="0.01" placeholder="Preço do Produto">
-            <button onclick="cadastrarProduto()">Adicionar produto</button>
             
     </div>
 	

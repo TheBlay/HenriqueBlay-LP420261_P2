@@ -1,5 +1,11 @@
 
 <!DOCTYPE html>
+<!--
+Ícones de svgrepo.com | favicon feito usando Paint
+ Autoria de Henrique Blay Barboza  |  RA: 1290482612001
+ Confira no GitHub! -> https://github.com/TheBlay/HenriqueBlay-LP420261_P2
+
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">

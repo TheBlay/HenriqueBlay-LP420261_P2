@@ -118,7 +118,7 @@ a:not(.contain) {
     <div class="navBarSuperior">
         <a class="contain" href="index.php" >Principal</a>
         <a class="contain" href="publicacoes.php" >Publicações</a>
-        <a class="contain" href="divulgacoes.php" >Filmes</a>
+        <a class="contain" href="divulgacoes.php" >Divulgações</a>
     </div>
 </div>
 <hr/>
