@@ -27,7 +27,7 @@ const topBtn = document.getElementById('topBtn');
 :root {
     --cor-de-fundo-container-nav: var(--cor-de-fundo);
     --cor-fundo-navbar: var(--color-500);
-    --cor-botoes-nav: var(--color-400);
+    --cor-botoes-nav: var(--color-300);
     --fonte-botoes-nav: "Chango, sans-serif";
     --cor-fonte-botoes-nav: black;
 }
@@ -39,14 +39,14 @@ const topBtn = document.getElementById('topBtn');
     gap:5em;
     max-width: max-content;
     min-width: 100%;
-    min-height: 60px;
+    min-height: 1.6em;
     justify-content: stretch; /* bons: space-around, stretch e normal*/
     
 }
 
-.navBarSuperior, .configBarSuperior {
-    max-width: 100dvh;
-    min-width: 50pc;
+.navBarSuperior {
+    max-width: 100dvw;
+    min-width: 50dvw;
     flex-wrap: wrap;
     height: 60px;
     border-radius:10px;
@@ -59,25 +59,23 @@ const topBtn = document.getElementById('topBtn');
     
 }
 
-.configBarSuperior {
-min-width: max-content;
-display: inline-block;
-max-width: 30%;
-}
 
-.contain {
+
+.contain { /* a classe contain é basicamente os botões de navegação da barra. e.g. "Publicações" */
     border: 2px solid black;
     flex-wrap: wrap;
     text-decoration: none;
     font-size: 1.7em;
     height: 70%;
-    width: 14%;
+    width: 16vw;
+    min-width: fit-content;
     color: var(--cor-fonte-botoes-nav, black);
     background-color: var(--cor-botoes-nav);
     border-radius: 15px;
     justify-content: space-around;
     align-content: space-evenly;
     display: inline-flex;
+    padding-inline: 0.3em;
 }
 
 img {
@@ -101,8 +99,9 @@ img {
     }
 
 .contain:hover, #topBtn:hover{
-    background-color: var(--color-300);
+    background-color: var(--color-200);
     text-shadow: var(--color-100);
+    color: var(--cor-fonte-claro)
 }
 
 .navBarContainer{
@@ -110,18 +109,16 @@ img {
 }
 
 a:not(.contain) {
-  margin-block: 1px;
-  
+  margin-block: 1px; 
 }
-
 
  </style>
 
 <div class="navBarContainer"><img src="favicon.png">
     <div class="navBarSuperior">
-        <a class="contain" href="index.php" >Home</a>
-        <a class="contain" href="peixaria.php" >Peixaria</a>
-        <a class="contain" href="filmesFavoritos.php" >Filmes</a>
+        <a class="contain" href="index.php" >Principal</a>
+        <a class="contain" href="publicacoes.php" >Publicações</a>
+        <a class="contain" href="divulgacoes.php" >Filmes</a>
     </div>
 </div>
 <hr/>

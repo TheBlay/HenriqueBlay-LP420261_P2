@@ -1,4 +1,10 @@
 <?php
+require_once 'conexao.php';
+echo "<br>";
+$stmt = $pdo->query("SELECT * FROM tb_autores");
+while ($row = $stmt->fetch()) {
+    echo $row['nomeAutor'] . "<br>";
+}
 
 ?>
 <!--
@@ -27,8 +33,8 @@ Coautores, Revisores, etc.
 
 
 <body>
-<?php  include_once 'header.php' ?>
-<hr/><div class='title'>Produtos</div>
+<?php  include_once 'header.php'; ?>
+<hr/><div class='title'>Publicações Atuais</div>
 	<div class="caixa">
             <input type="text" id="nome" name="nome" placeholder="Nome do Produto">
             <textarea rows="6" cols="50 id="descricao" name="descricao" placeholder="Descrição do Produto"></textarea>
@@ -38,7 +44,6 @@ Coautores, Revisores, etc.
     </div>
 	
         <div class="caixa lista" id="listaProdutos"></div>
-
 
     <script>
 

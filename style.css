@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chango&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chango&family=Momo+Trust+Display&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-/* TO-DO: mudar a paletta de cores do site */
+/* TO-DO: mudar a paletta de cores do site 
+- em = relativo ao tamanho da fonte (do elemento pai) / rem = ´´ (do elemento raiz/root) | 1.2em = 1.2 vezes o tamanho da fonte do elemento pai
+- vw/vh (view- width/height) = porcentagem relativa ao comprimento/altura do viewport (espaço de tela)
+
+*/
 :root {
-    --cor-de-fundo: #A8C7E1; /* color-200 */
+    --cor-de-fundo: #ECF3F8; /* color-50 */
     --cor-titulo: #5190C4; /* color-500 */
     --fonte-titulo: Raleway;
     --cor-fundo-elemento: #85B1D5; /* color-300 */
@@ -42,18 +46,32 @@ hr {
   height: 1px;
 }
 
-div.title {
+#statusConexao {
+  background-color: rgb(105, 150, 216);
+  color: black;
+  position:sticky;
+  
+}
+
+div.title { /* A barra do título, de canto arredondado */
     background: var(--cor-titulo);
     font-family: var(--fonte-titulo, 'Times New Roman', Times, serif);
     font-size: 3em;
     padding-left: 1em;
-    border-top-right-radius: 3em;
-    max-width: 60%;
+    border-top-right-radius: 35px;
+    max-width: 70dvw;
     color: var(--cor-de-fundo);
-    margin-top: 70px;
+    margin-top: 10vh;
+}
+
+.operacoes {
+  display: flex;
+  flex-flow: column;
+  align-content: end;
 }
 
 .caixa, .lista {
+  display: flow;
   border-bottom: #000000;
   background-color: var(--cor-titulo);
   max-width: 100%;
@@ -63,7 +81,6 @@ div.title {
   padding-right: 1pc;
   padding-inline-start: 1pc;
   border-top-right-radius: 2em;
-  display: flow;
   justify-content: center;
   
 }
@@ -114,7 +131,7 @@ textarea {
   border-radius: 10px;
   box-sizing: border-box;
   background-color: antiquewhite;
-  font-size: 16px;
+  font-size: 1em;
 }
 
 #descricaoContainer {
@@ -167,6 +184,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 
 button {
+  min-width: fit-content;
   max-width: fit-content;
   max-height: fit-content;
   vertical-align: baseline;
