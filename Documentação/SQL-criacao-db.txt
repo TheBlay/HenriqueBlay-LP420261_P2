@@ -55,7 +55,7 @@ CREATE TABLE tb_publicacao (
     	ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=INNODB;
 
-CREATE IGNORE TABLE tb_divulgacao_convidado (
+CREATE TABLE tb_divulgacao_convidado (
     idDivulgacao INT NOT NULL,
     idConvidado INT NOT NULL,
     PRIMARY KEY (idDivulgacao, idConvidado),
