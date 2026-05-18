@@ -1,4 +1,5 @@
 INSERT INTO `tb_autores` (`idAutor`, `nomeAutor`, `email`, `idClassificacao`) VALUES
 (NULL, 'Fernando Cevice Santos', 'fernando23@email.com', '5'),
 (NULL, 'Fabio Ferreira de Pedroso', 'fabiofe.ilustra@gmail.com', '4'),
-(NULL, 'Henrique Barboza', 'henrique.barboza@fatec.sp.gov.br', '1');
+(NULL, 'Henrique Barboza', 'henrique.barboza@fatec.sp.gov.br', '1'),
+(NULL, 'Patricia Serrano', 'patiserrano.contato@email.com', '1'), (NULL, 'Armaldo Frunt', 'fruntposters1@gmail.com', NULL);
