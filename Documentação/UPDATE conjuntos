@@ -1,0 +1,3 @@
+UPDATE `tb_divulgacao` SET `descricao` = 'XV Feira da Empregabilidade' WHERE `tb_divulgacao`.`idDivulgacao` = 1;
+UPDATE `tb_divulgacao` SET `descricao` = 'II Bienal Anual para Estudantes' WHERE `tb_divulgacao`.`idDivulgacao` = 2;
+
