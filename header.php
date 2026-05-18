@@ -117,8 +117,8 @@ a:not(.contain) {
 <div class="navBarContainer"><img src="favicon.png">
     <div class="navBarSuperior">
         <a class="contain" href="index.php" >Principal</a>
-        <a class="contain" href="publicacoes.php" >Publicações</a>
-        <a class="contain" href="divulgacoes.php" >Divulgações</a>
+        <a class="contain" href="publicacoes.php" >Cadastrar Publicações</a>
+        <a class="contain" href="divulgacoes.php" >Publicações</a>
     </div>
 </div>
 <hr/>

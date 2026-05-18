@@ -1,24 +1,22 @@
 
 <!DOCTYPE html>
-<!--
-Ícones de svgrepo.com | favicon feito usando Paint
- Autoria de Henrique Blay Barboza  |  RA: 1290482612001
- Confira no GitHub! -> https://github.com/TheBlay/HenriqueBlay-LP420261_P2
-
--->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="filmes.css">
+    <link rel="stylesheet" href="divulgacoes.css">
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Publicações</title>
 </head>
 
 <body><?php
-    require_once 'conexao.php';
-    include_once 'header.php'; ?>
+    require_once 'controller/conexao.php';
+    include_once 'header.php'; 
+    $sql = "SELECT idClassificacao, tipoClassificacao FROM tb_classificacao";
+    $stmt = $conn->query($sql);
+    $classificacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
     <div class='title'>Publicações</div>
         <div class="caixa">
                 
@@ -43,12 +41,12 @@
                 <option value="musical">Musical</option>
             </select>
             <select name="idClassificacao">
-                <?php
-                $stmt = $conn->query("SELECT idClassificacao, tipoClassificacao FROM tb_classificacao");
-                foreach ($stmt as $row) {
-                    echo "<option value='{$row['idClassificacao']} '>{$row['tipoClassificacao']}</option>";
-                }
-                ?>
+                <?php foreach ($classificacoes as $row): ?>
+                    <option value="<?= $row['idClassificacao'] ?>">
+                        <?= htmlspecialchars($row['tipoClassificacao']) ?>
+                    </option>
+                <?php endforeach; ?>
+                
             </select>
             <div class="operacoes">
                 <button type="button" onclick="cadastrarPublicacao()">Cadastrar Publicação</button>

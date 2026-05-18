@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php';
+require_once 'controller/conexao.php';
 echo "<br>";
 $selectAutores = $pdo->query("SELECT * FROM tb_autores");
 while ($row = $selectAutores->fetch()) {
@@ -43,18 +43,58 @@ Coautores, Revisores, etc.
 <?php  include_once 'header.php'; ?>
 <hr/><div class='title'>Publicações Atuais</div>
 	<div class="caixa">
-            <input type="text" id="nome" name="nome" placeholder="Nome do Produto">
-            <textarea rows="6" cols="50 id="descricao" name="descricao" placeholder="Descrição do Produto"></textarea>
-            <input type="number" id="preco" name="preco" type="number" step="0.01" placeholder="Preço do Produto">
-            <button onclick="cadastrarProduto()">Adicionar produto</button>
+            <h2 style="color: var(--cor-fonte-escuro)">Lista de Publicações Atuais</h2>
             
     </div>
 	
-        <div class="caixa lista" id="listaProdutos"></div>
+        <div class="caixa lista" id="listaPublicacoes">
+        <?php
+
+
+// O id também pode vir de um $_GET['id']
+$idDivulgacao = 2; 
+
+$sql = "SELECT 
+            d.descricao, 
+            c.nomeConvidado
+        FROM 
+            tb_divulgacao_convidado dc
+        INNER JOIN 
+            tb_divulgacao d ON dc.idDivulgacao = d.idDivulgacao
+        INNER JOIN 
+            tb_convidados c ON dc.idConvidado = c.idConvidado
+        ORDER BY 
+            d.nome_evento ASC";
+
+// 4. Executa a busca de forma segura
+$stmt = $pdo->query($sql);
+$resultados = $stmt->fetchAll();
+
+// 5. Exibe os dados na tela de forma organizada
+if (!empty($resultados)) {
+    // Como o nome do evento é igual em todas as linhas, pegamos o da primeira linha
+    $evento = htmlspecialchars($resultados[0]['descricao']);
+    echo "<h2 class='tituloEvento'>Evento: {$evento} </h2>";
+    echo "<h3>Lista de Convidados:</h3>";
+    echo "<ul class='listaConvidados'>";
+    
+    // Fazemos um loop para listar apenas os convidados
+    foreach ($resultados as $linha) {
+        $convidado = htmlspecialchars($linha['nomeConvidado']);
+        echo "<li> {$convidado}</li>";
+    }
+    
+    echo "</ul>";
+} else {
+    echo "<p>Nenhum convidado encontrado para esta divulgação (ou o evento não existe).</p>";
+}
+?>
+
+        </div>
 
     <script>
 
-     const listaP = document.getElementById('listaProdutos');
+     const listaP = document.getElementById('listaPublicacoes');
 
          function cadastrarProduto()
         {

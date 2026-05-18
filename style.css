@@ -46,6 +46,17 @@ hr {
   height: 1px;
 }
 
+.listaConvidados {
+  font-family: var(--fonte-titulo, 'Times New Roman', Times, serif);
+  font-size: 0.9em;
+  color: var(--cor-fonte-escuro);
+}
+
+.tituloEvento {
+  color: var(--color-500);
+  font-size: 1.2em;
+}
+
 #statusConexao {
   background-color: rgb(105, 150, 216);
   color: black;
