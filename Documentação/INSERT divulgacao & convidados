@@ -1,5 +1,6 @@
 INSERT INTO `tb_divulgacao` (`idDivulgacao`, `dataEvento`, `local`, `descricao`) VALUES (NULL, '2026-02-18', 'Site Editora Lagrima', 'Lançamento de E-Book'),
-(NULL, '2026-06-09', 'FATEC Praia Grande', 'Apresentação de TCC');
+(NULL, '2026-06-09', 'FATEC Praia Grande', 'Apresentação de TCC'),
+(NULL, '2026-03-10', 'Praça XXV de Julho', 'IV Bienal dos Estudantes'), (NULL, '2026-05-18', 'Site Alegria Racing', 'Publicação de Poster');
 
 INSERT INTO `tb_convidados` (`idConvidado`, `nomeConvidado`, `email`, `telefone`) VALUES (NULL, 'Editora Lagrima', 'lagrimaeditora.social@email.com', NULL),
 (NULL, 'Cristina dos Santos Có', 'cristinaco.docente@fatec.sp.gov.br', NULL), (NULL, 'Jonatas Cerqueira Dias', 'jonatas.dias3@fatec.sp.gov.br', NULL), 
