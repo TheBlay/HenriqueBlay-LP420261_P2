@@ -2,4 +2,5 @@ INSERT IGNORE INTO tb_tipopublicacao (idTipoPublicacao, nomeTipo, descricao) VAL
 (1, 'Artigo', 'Publicação de trabalho de Artigo Científico'), 
 (2, 'Dissertação', 'Publicação de um trabalho de dissertação'),
 (3, 'Pôster', 'Publicação via poster'),
-(4, 'Livro', 'Publicação de livro');
+(4, 'Livro', 'Publicação de livro'),
+(NULL, 'E-Book', 'Publicação de Livro Digital');
