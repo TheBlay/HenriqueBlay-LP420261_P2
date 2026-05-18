@@ -54,3 +54,11 @@ CREATE TABLE tb_publicacao (
     CONSTRAINT fk_publicacao_tipoPublicacao FOREIGN KEY (idTipoPublicacao) REFERENCES tb_tipoPublicacao(idTipoPublicacao)
     	ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=INNODB;
+
+CREATE IGNORE TABLE tb_divulgacao_convidado (
+    idDivulgacao INT NOT NULL,
+    idConvidado INT NOT NULL,
+    PRIMARY KEY (idDivulgacao, idConvidado),
+    CONSTRAINT fk_divulgacao FOREIGN KEY (idDivulgacao) REFERENCES tb_divulgacao(idDivulgacao),
+    CONSTRAINT fk_convidado FOREIGN KEY (idConvidado) REFERENCES tb_convidados(idConvidado)
+   );
