@@ -39,7 +39,7 @@
             <button type="button" onclick="cadastrarFilme()">Cadastrar Filme</button>
             <button type="button" onclick="carregarFilmes()">Exibir Filmes</button>
         </div>
-        <div class="caixa lista" id="listaFilmes">
+        <div class="caixa lista" id="listaPublicacoes">
 
         </div>
     <script>
@@ -49,7 +49,7 @@
     //Elementos
     
    
-    lista = document.getElementById('listaFilmes');
+    lista = document.getElementById('listaPublicacoes');
 
     function gerarHTML(f) {
         return `<div class="elemento">
@@ -75,7 +75,7 @@
                 genero: genero
             }
         );
-        fetch('filmes.php',
+        fetch('processa_divulgacao.php',
          {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
@@ -83,7 +83,7 @@
     })
     .then(response => response.json())
     .then(filme => {
-            document.getElementById('listaFilmes').innerHTML =
+            document.getElementById('listaPublicacoes').innerHTML =
                 filme.map(gerarHTML).join('');
                 
     })
@@ -93,10 +93,10 @@
 
     function carregarFilmes(){
         
-        fetch('filmes.php', { method: 'GET'})
+        fetch('processa_divulgacao.php', { method: 'GET'})
             .then(response => response.json())
             .then(filme => {
-                document.getElementById('listaFilmes').innerHTML =
+                document.getElementById('listaPublicacoes').innerHTML =
                 filme.map(gerarHTML).join('');
                 
                 

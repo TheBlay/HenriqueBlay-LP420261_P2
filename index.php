@@ -1,17 +1,15 @@
 <?php
 require_once 'controller/conexao.php';
-echo "<br>";
-$selectAutores = $pdo->query("SELECT * FROM tb_autores");
-while ($row = $selectAutores->fetch()) {
-    echo $row['nomeAutor'] . "<br>";
-}
-$selectConvidados = $pdo->query("SELECT d.descricao AS evento, c.nomeConvidado AS convidado
-FROM tb_divulgacao d 
-JOIN tb_divulgacao_convidado dc ON d.idDivulgacao = dc.idDivulgacao
-JOIN tb_convidados c ON dc.idConvidado = c.idConvidado;");
-while ($row = $selectConvidados->fetch()) {
-    echo $row['evento'] . " | Convidados: " . $row['convidado'] . "<br>";
-}
+require_once 'model/Divulgacao.php';
+require_once 'model/Publicacao.php';
+
+$publicacao = new Publicacao($conn);
+$publicacoes = $publicacao->getTodasPublicacoes();
+
+$divulgacao = new Divulgacao($conn);
+$eventos = $divulgacao->getEventosComConvidados();
+
+
 
 ?>
 <!--
@@ -36,6 +34,44 @@ Coautores, Revisores, etc.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Publicações</title>
+    <style>
+        .publicacao-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .publicacao-item h3 {
+            margin-top: 0;
+            color: var(--cor-primaria, #007bff);
+        }
+
+        .publicacao-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .meta-grupo {
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .meta-valor {
+            color: #333;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 
@@ -46,49 +82,12 @@ Coautores, Revisores, etc.
             <h2 style="color: var(--cor-fonte-escuro)">Lista de Publicações Atuais</h2>
             
     </div>
-	
-        <div class="caixa lista" id="listaPublicacoes">
-        <?php
 
-
-// O id também pode vir de um $_GET['id']
-$idDivulgacao = 2; 
-
-$sql = "SELECT 
-            d.descricao, 
-            c.nomeConvidado
-        FROM 
-            tb_divulgacao_convidado dc
-        INNER JOIN 
-            tb_divulgacao d ON dc.idDivulgacao = d.idDivulgacao
-        INNER JOIN 
-            tb_convidados c ON dc.idConvidado = c.idConvidado
-        ORDER BY 
-            d.nome_evento ASC";
-
-// 4. Executa a busca de forma segura
-$stmt = $pdo->query($sql);
-$resultados = $stmt->fetchAll();
-
-// 5. Exibe os dados na tela de forma organizada
-if (!empty($resultados)) {
-    // Como o nome do evento é igual em todas as linhas, pegamos o da primeira linha
-    $evento = htmlspecialchars($resultados[0]['descricao']);
-    echo "<h2 class='tituloEvento'>Evento: {$evento} </h2>";
-    echo "<h3>Lista de Convidados:</h3>";
-    echo "<ul class='listaConvidados'>";
-    
-    // Fazemos um loop para listar apenas os convidados
-    foreach ($resultados as $linha) {
-        $convidado = htmlspecialchars($linha['nomeConvidado']);
-        echo "<li> {$convidado}</li>";
-    }
-    
-    echo "</ul>";
-} else {
-    echo "<p>Nenhum convidado encontrado para esta divulgação (ou o evento não existe).</p>";
-}
-?>
+    <div class="caixa lista-publicacoes">
+    <h2>Publicações Cadastradas</h2>
+    <div id="listaPublicacoes"></div>
+</div>
+        
 
         </div>
 
@@ -96,56 +95,58 @@ if (!empty($resultados)) {
 
      const listaP = document.getElementById('listaPublicacoes');
 
-         function cadastrarProduto()
-        {
-             const nome = document.getElementById('nome').value;
-             const descricao = document.getElementById('descricao').value;
-             const preco = document.getElementById('preco').value;
+     function gerarHTMLPublicacao(pub) {
+        const tipoNome = pub.tipo?.nomeTipo || 'N/A';
+        const autorNome = pub.autor?.nomeAutor || 'Sem autor';
+        const autorEmail = pub.autor?.email || '';
+        const divulgacao = pub.divulgacao?.descricao || 'Sem divulgação';
+        const divulgacaoLocal = pub.divulgacao?.local || '';
 
-             const body = new URLSearchParams({
-                nome: nome,
-                descricao: descricao,
-                preco: preco
-            });
-            fetch('produtos.php', 
-            {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: body.toString()
-                })
-                .then(response => response.json())
-                .then(produto => {
-                    // Atualiza o conteúdo da div com a lista atualizada; tb usado no carregarProduto
-                    listaProdutos.innerHTML =
-                    produto.map(p => `<div class="elemento">Produto: <br>
-                    Nome: ${p.nome} <br>
-                    Descrição: ${p.descricao} <br>
-                    Preço: R$ ${p.preco} </div><hr/>
-                `).join('');
-                })
-                .catch(error => console.error('Erro:', error));
-
+        return `
+            <div class="publicacao-item">
+                <h3>${pub.titulo}</h3>
+                <p><strong>Resumo:</strong> ${pub.resumo}</p>
                 
-        }
+                <div class="publicacao-meta">
+                    <div class="meta-grupo">
+                        <div class="meta-label">Tipo de Publicação</div>
+                        <div class="meta-valor">${tipoNome}</div>
+                    </div>
+                    
+                    <div class="meta-grupo">
+                        <div class="meta-label">Data</div>
+                        <div class="meta-valor">${pub.dataPublicacao || 'N/A'}</div>
+                    </div>
+                    
+                    <div class="meta-grupo">
+                        <div class="meta-label">Autor</div>
+                        <div class="meta-valor">${autorNome}</div>
+                        ${autorEmail ? `<div style="font-size: 12px; color: #666;">${autorEmail}</div>` : ''}
+                    </div>
+                    
+                    <div class="meta-grupo">
+                        <div class="meta-label">Divulgação</div>
+                        <div class="meta-valor">${divulgacao}</div>
+                        ${divulgacaoLocal ? `<div style="font-size: 12px; color: #666;">${divulgacaoLocal}</div>` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
 
-        function carregarProdutos()
-         { //Exibir
-            fetch('produtos.php', { method: 'GET' })
-                .then(response => response.json())
-                .then(produto => {
-                    document.getElementById('listaProdutos').innerHTML =
-                    produto.map(p => `<div class="elemento">Produto: <br>
-                    Nome: ${p.nome} <br>
-                    Descrição: ${p.descricao} <br>
-                    Preço: R$ ${parseFloat(p.preco)} </div><hr/>
-                `).join('');
-                })
-                .catch(error => console.error('Erro ao carregar:', error));
-         }
+         function carregarPublicacoes() {
+        // Buscar publicações do servidor
+        fetch('api_publicacoes.php', { method: 'GET' })
+            .then(response => response.json())
+            .then(publicacoes => {
+                const html = publicacoes.map(pub => gerarHTMLPublicacao(pub)).join('');
+                document.getElementById('listaPublicacoes').innerHTML = html || '<p>Nenhuma publicação cadastrada ainda.</p>';
+            })
+            .catch(error => console.error('Erro ao carregar publicações:', error));
+    }
         
-        window.onload = function() {
-            carregarProdutos();
-        }
+        // Carregar publicações ao abrir a página
+    window.addEventListener('load', carregarPublicacoes);
         
 
 </script>

@@ -35,7 +35,7 @@ const topBtn = document.getElementById('topBtn');
 .navBarContainer {
     display: grid;
     grid-auto-flow: column;
-    background-color: var(--cor-de-fundo-container-nav);
+    background-color: var(--cor-de-fundo-container-nav.5);
     gap:5em;
     max-width: max-content;
     min-width: 100%;

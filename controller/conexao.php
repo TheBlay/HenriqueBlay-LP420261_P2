@@ -16,7 +16,7 @@ $options = [
 
 try {
      $pdo = new PDO($dsn, $user, $pass, $options);
-     echo "<span id='statusConexao'>Conectado com sucesso!</span>";
+     $conn = $pdo;
 } catch (\PDOException $e) {
      // Em produção, nunca dê echo no $e->getMessage() diretamente!
      die("Erro na conexão: " . $e->getMessage());
