@@ -28,9 +28,7 @@ CREATE TABLE tb_divulgacao (
 	idDivulgacao INT AUTO_INCREMENT PRIMARY KEY,
     dataEvento DATE,
     local VARCHAR(150),
-    idConvidado INT,
-    CONSTRAINT fk_divulgacao_convidados FOREIGN KEY (idConvidado) REFERENCES tb_convidados(idConvidado)
-    	ON DELETE SET NULL ON UPDATE CASCADE
+    descricao TEXT
 ) ENGINE=INNODB;
 
 CREATE TABLE tb_tipoPublicacao (
