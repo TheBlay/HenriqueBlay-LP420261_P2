@@ -5,3 +5,8 @@ CREATE TABLE tb_divulgacao_convidado (
     CONSTRAINT fk_divulgacao FOREIGN KEY (idDivulgacao) REFERENCES tb_divulgacao(idDivulgacao),
     CONSTRAINT fk_convidado FOREIGN KEY (idConvidado) REFERENCES tb_convidados(idConvidado)
    );
+
+ALTER TABLE tb_divulgacao
+DROP CONSTRAINT fk_divulgacao_convidados;
+
+ALTER TABLE `tb_divulgacao` DROP `idConvidado`
