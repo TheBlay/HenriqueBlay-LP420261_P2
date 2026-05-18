@@ -1,0 +1,2 @@
+ALTER TABLE tb_divulgacao
+ADD descricao TEXT;
