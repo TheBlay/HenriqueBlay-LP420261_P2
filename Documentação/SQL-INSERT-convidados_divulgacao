@@ -1,1 +1,1 @@
-INSERT INTO tb_divulgacao_convidado (idDivulgacao, idConvidado) VALUES (2, 3), (2, 4);
+INSERT INTO tb_divulgacao_convidado (idDivulgacao, idConvidado) VALUES (3, 2), (3, 3);
