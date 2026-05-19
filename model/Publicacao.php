@@ -182,6 +182,59 @@ class Publicacao
     }
 
     /**
+     * Atualiza uma publicação existente
+     * @param int $idPublicacao
+     * @param string $titulo
+     * @param string $resumo
+     * @param string $dataPublicacao
+     * @param int $idTipoPublicacao
+     * @param int|null $idAutor
+     * @param int|null $idDivulgacao
+     * @return bool
+     */
+    public function atualizarPublicacao(
+        int $idPublicacao,
+        string $titulo,
+        string $resumo,
+        string $dataPublicacao,
+        int $idTipoPublicacao,
+        ?int $idAutor = null,
+        ?int $idDivulgacao = null
+    ): bool {
+        $sql = "UPDATE tb_publicacao SET 
+                    titulo = :titulo,
+                    resumo = :resumo,
+                    dataPublicacao = :dataPublicacao,
+                    idTipoPublicacao = :idTipoPublicacao,
+                    idAutor = :idAutor,
+                    idDivulgacao = :idDivulgacao
+                WHERE idPublicacao = :idPublicacao";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':idPublicacao' => $idPublicacao,
+            ':titulo' => $titulo,
+            ':resumo' => $resumo,
+            ':dataPublicacao' => $dataPublicacao,
+            ':idTipoPublicacao' => $idTipoPublicacao,
+            ':idAutor' => $idAutor,
+            ':idDivulgacao' => $idDivulgacao
+        ]);
+    }
+
+    /**
+     * Exclui uma publicação pelo ID
+     * @param int $idPublicacao
+     * @return bool
+     */
+    public function excluirPublicacao(int $idPublicacao): bool
+    {
+        $sql = "DELETE FROM tb_publicacao WHERE idPublicacao = :idPublicacao";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':idPublicacao' => $idPublicacao]);
+    }
+
+    /**
      * Retorna publicações filtradas por tipo
      * @param string $tipoPublicacao
      * @return array

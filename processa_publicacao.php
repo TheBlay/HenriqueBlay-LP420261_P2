@@ -20,6 +20,8 @@ try {
     $idTipoPublicacao = (int) ($_POST['idTipoPublicacao'] ?? 0);
     $idAutor = !empty($_POST['idAutor']) ? (int) $_POST['idAutor'] : null;
     $idDivulgacao = !empty($_POST['idDivulgacao']) ? (int) $_POST['idDivulgacao'] : null;
+    $idPublicacao = !empty($_POST['idPublicacao']) ? (int) $_POST['idPublicacao'] : 0;
+    $isUpdate = $idPublicacao > 0;
 
     // Validar dados obrigatórios
     if (empty($titulo) || empty($resumo) || $idTipoPublicacao === 0) {
@@ -40,20 +42,40 @@ try {
         $idAutor = $autor->cadastrarAutor($nomeAutor, $emailAutor, $idClassificacaoAutor);
     }
 
-    // Cadastrar publicação
     $publicacao = new Publicacao($conn);
-    $idPublicacao = $publicacao->cadastrarPublicacao(
-        $titulo,
-        $resumo,
-        $dataPublicacao,
-        $idTipoPublicacao,
-        $idAutor,
-        $idDivulgacao
-    );
 
-    $response['success'] = true;
-    $response['message'] = 'Publicação cadastrada com sucesso!';
-    $response['idPublicacao'] = $idPublicacao;
+    if ($isUpdate) {
+        $updated = $publicacao->atualizarPublicacao(
+            $idPublicacao,
+            $titulo,
+            $resumo,
+            $dataPublicacao,
+            $idTipoPublicacao,
+            $idAutor,
+            $idDivulgacao
+        );
+
+        if (!$updated) {
+            throw new Exception('Não foi possível atualizar a publicação');
+        }
+
+        $response['success'] = true;
+        $response['message'] = 'Publicação atualizada com sucesso!';
+        $response['idPublicacao'] = $idPublicacao;
+    } else {
+        $idPublicacao = $publicacao->cadastrarPublicacao(
+            $titulo,
+            $resumo,
+            $dataPublicacao,
+            $idTipoPublicacao,
+            $idAutor,
+            $idDivulgacao
+        );
+
+        $response['success'] = true;
+        $response['message'] = 'Publicação cadastrada com sucesso!';
+        $response['idPublicacao'] = $idPublicacao;
+    }
 
 } catch (Exception $e) {
     $response['message'] = 'Erro: ' . $e->getMessage();

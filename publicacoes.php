@@ -157,6 +157,82 @@
             color: #333;
             margin-top: 5px;
         }
+
+        .manage-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0 10px;
+            font-size: 15px;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .btn-action {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            color: white;
+        }
+
+        .btn-edit {
+            background-color: #007bff;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 700px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -285,10 +361,80 @@ $todasPublicacoes = $publicacao->getTodasPublicacoes();
     </div>
 </div>
 
+<div class="manage-toggle">
+    <label>
+        <input type="checkbox" id="modoGerenciamento">
+        Ativar edição / exclusão de publicações
+    </label>
+</div>
+
 <!-- Lista de publicações -->
 <div class="caixa lista-publicacoes">
     <h2>Publicações Cadastradas</h2>
     <div id="listaPublicacoes"></div>
+</div>
+
+<div class="modal-overlay" id="modalEditPublicacao">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeEditModal()">&times;</button>
+        <h3>Editar Publicação</h3>
+
+        <input type="hidden" id="editIdPublicacao">
+
+        <div class="form-group">
+            <label for="editTitulo">Título</label>
+            <input type="text" id="editTitulo" placeholder="Título da publicação">
+        </div>
+
+        <div class="form-group">
+            <label for="editResumo">Resumo</label>
+            <textarea id="editResumo" rows="5" placeholder="Resumo da publicação"></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="editDataPublicacao">Data de Publicação</label>
+                <input type="date" id="editDataPublicacao">
+            </div>
+
+            <div class="form-group">
+                <label for="editIdTipoPublicacao">Tipo de Publicação</label>
+                <select id="editIdTipoPublicacao">
+                    <option value="">Selecione um tipo...</option>
+                    <?php foreach ($tiposPublicacao as $row): ?>
+                        <option value="<?= $row['idTipoPublicacao'] ?>"><?= htmlspecialchars($row['nomeTipo']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="editIdAutor">Autor</label>
+                <select id="editIdAutor">
+                    <option value="">Nenhum</option>
+                    <?php foreach ($autores as $row): ?>
+                        <option value="<?= $row['idAutor'] ?>"><?= htmlspecialchars($row['nomeAutor']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="editIdDivulgacao">Evento de Divulgação</label>
+                <select id="editIdDivulgacao">
+                    <option value="">Nenhum</option>
+                    <?php foreach ($divulgacoes as $row): ?>
+                        <option value="<?= $row['idDivulgacao'] ?>"><?= htmlspecialchars($row['descricao']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+        <div class="botoes">
+            <button class="btn-salvar" onclick="salvarEdicao()">Salvar Alterações</button>
+            <button class="btn-limpar" onclick="closeEditModal()">Cancelar</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -296,7 +442,7 @@ $todasPublicacoes = $publicacao->getTodasPublicacoes();
     document.getElementById('criarNovoAutor').addEventListener('change', function () {
         const novoAutorForm = document.getElementById('novoAutorForm');
         const idAutorSelect = document.getElementById('idAutor');
-        
+
         if (this.checked) {
             novoAutorForm.classList.add('active');
             idAutorSelect.disabled = true;
@@ -306,6 +452,14 @@ $todasPublicacoes = $publicacao->getTodasPublicacoes();
         }
     });
 
+    const modoGerenciamento = document.getElementById('modoGerenciamento');
+    let manageMode = false;
+
+    modoGerenciamento.addEventListener('change', function () {
+        manageMode = this.checked;
+        carregarPublicacoes();
+    });
+
     function gerarHTMLPublicacao(pub) {
         const tipoNome = pub.tipo?.nomeTipo || 'N/A';
         const autorNome = pub.autor?.nomeAutor || 'Sem autor';
@@ -313,28 +467,36 @@ $todasPublicacoes = $publicacao->getTodasPublicacoes();
         const divulgacao = pub.divulgacao?.descricao || 'Sem divulgação';
         const divulgacaoLocal = pub.divulgacao?.local || '';
 
+        const actions = manageMode ? `
+            <div class="card-actions">
+                <button class="btn-action btn-edit" onclick="editarPublicacao(${pub.idPublicacao})">Editar</button>
+                <button class="btn-action btn-delete" onclick="excluirPublicacao(${pub.idPublicacao})">Excluir</button>
+            </div>
+        ` : '';
+
         return `
             <div class="publicacao-item">
+                ${actions}
                 <h3>${pub.titulo}</h3>
                 <p><strong>Resumo:</strong> ${pub.resumo}</p>
-                
+
                 <div class="publicacao-meta">
                     <div class="meta-grupo">
                         <div class="meta-label">Tipo de Publicação</div>
                         <div class="meta-valor">${tipoNome}</div>
                     </div>
-                    
+
                     <div class="meta-grupo">
                         <div class="meta-label">Data</div>
                         <div class="meta-valor">${pub.dataPublicacao || 'N/A'}</div>
                     </div>
-                    
+
                     <div class="meta-grupo">
                         <div class="meta-label">Autor</div>
                         <div class="meta-valor">${autorNome}</div>
                         ${autorEmail ? `<div style="font-size: 12px; color: #666;">${autorEmail}</div>` : ''}
                     </div>
-                    
+
                     <div class="meta-grupo">
                         <div class="meta-label">Divulgação</div>
                         <div class="meta-valor">${divulgacao}</div>
@@ -406,6 +568,108 @@ $todasPublicacoes = $publicacao->getTodasPublicacoes();
         .catch(error => console.error('Erro:', error));
     }
 
+    function salvarEdicao() {
+        const idPublicacao = document.getElementById('editIdPublicacao').value;
+        const titulo = document.getElementById('editTitulo').value.trim();
+        const resumo = document.getElementById('editResumo').value.trim();
+        const dataPublicacao = document.getElementById('editDataPublicacao').value;
+        const idTipoPublicacao = document.getElementById('editIdTipoPublicacao').value;
+        const idAutor = document.getElementById('editIdAutor').value;
+        const idDivulgacao = document.getElementById('editIdDivulgacao').value;
+
+        if (!titulo || !resumo || !idTipoPublicacao) {
+            alert('Preencha Título, Resumo e Tipo de Publicação');
+            return;
+        }
+
+        const body = new FormData();
+        body.append('idPublicacao', idPublicacao);
+        body.append('titulo', titulo);
+        body.append('resumo', resumo);
+        body.append('dataPublicacao', dataPublicacao);
+        body.append('idTipoPublicacao', idTipoPublicacao);
+
+        if (idAutor) {
+            body.append('idAutor', idAutor);
+        }
+
+        if (idDivulgacao) {
+            body.append('idDivulgacao', idDivulgacao);
+        }
+
+        fetch('processa_publicacao.php', {
+            method: 'POST',
+            body: body
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                closeEditModal();
+                carregarPublicacoes();
+            } else {
+                alert('Erro: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+    }
+
+    function excluirPublicacao(idPublicacao) {
+        if (!confirm('Tem certeza de que deseja excluir esta publicação?')) {
+            return;
+        }
+
+        const body = new URLSearchParams();
+        body.append('idPublicacao', idPublicacao);
+
+        fetch('delete_publicacao.php', {
+            method: 'POST',
+            body: body,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                carregarPublicacoes();
+            } else {
+                alert('Erro: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+    }
+
+    function editarPublicacao(idPublicacao) {
+        fetch(`api_publicacao.php?id=${idPublicacao}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Erro: ' + data.message);
+                    return;
+                }
+                showEditModal(data);
+            })
+            .catch(error => console.error('Erro:', error));
+    }
+
+    function showEditModal(pub) {
+        document.getElementById('editIdPublicacao').value = pub.idPublicacao;
+        document.getElementById('editTitulo').value = pub.titulo;
+        document.getElementById('editResumo').value = pub.resumo;
+        document.getElementById('editDataPublicacao').value = pub.dataPublicacao || new Date().toISOString().split('T')[0];
+        document.getElementById('editIdTipoPublicacao').value = pub.tipo?.idTipoPublicacao || '';
+        document.getElementById('editIdAutor').value = pub.autor?.idAutor || '';
+        document.getElementById('editIdDivulgacao').value = pub.divulgacao?.idDivulgacao || '';
+
+        document.getElementById('modalEditPublicacao').classList.add('active');
+    }
+
+    function closeEditModal() {
+        document.getElementById('modalEditPublicacao').classList.remove('active');
+    }
+
     function limparFormulario() {
         document.getElementById('titulo').value = '';
         document.getElementById('resumo').value = '';
@@ -421,10 +685,13 @@ $todasPublicacoes = $publicacao->getTodasPublicacoes();
     }
 
     function carregarPublicacoes() {
-        // Buscar publicações do servidor
         fetch('api_publicacoes.php', { method: 'GET' })
             .then(response => response.json())
             .then(publicacoes => {
+                if (!Array.isArray(publicacoes)) {
+                    document.getElementById('listaPublicacoes').innerHTML = '<p>Erro ao carregar publicações.</p>';
+                    return;
+                }
                 const html = publicacoes.map(pub => gerarHTMLPublicacao(pub)).join('');
                 document.getElementById('listaPublicacoes').innerHTML = html || '<p>Nenhuma publicação cadastrada ainda.</p>';
             })
